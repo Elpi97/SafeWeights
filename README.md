@@ -6,7 +6,7 @@ Pull from Hugging Face → scan without loading → plain-language Markdown repo
 [![Python 3.14](https://img.shields.io/badge/python-3.14-22D3EE?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-0B1220?style=flat-square)](#license)
 
-**Live site:** [Project Pages](https://PLACEHOLDER.github.io/SafeWeights/) *(enabled after first push)*
+**Live site:** [Project Pages](https://Elpi97.github.io/SafeWeights/) *(enabled after first push)*
 
 ## What it does
 
