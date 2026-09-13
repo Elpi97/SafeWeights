@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SafeWeights — Static AI Model Intake Scanner</title>
+  <meta name="description" content="Cybersecurity tool for Hugging Face model intake: pull, statically scan, and report — without executing model code." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <header class="top">
+    <a class="brand" href="#top">SafeWeights</a>
+    <nav>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#formats">Formats</a>
+      <a href="#report">Report</a>
+      <a href="#start">Start</a>
+    </nav>
+    <a class="btn ghost" id="repo-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Cybersecurity · Hugging Face intake · Python 3.14</p>
+        <h1>SafeWeights</h1>
+        <p class="lede">Scan AI models before they reach your servers — statically, clearly, without running them.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#start">Get started</a>
+          <a class="btn ghost" href="#pipeline">See the pipeline</a>
+        </div>
+      </div>
+      <div class="hero-viz" aria-hidden="true">
+        <svg class="radar" viewBox="0 0 420 420" role="img">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.35" />
+              <stop offset="70%" stop-color="#22D3EE" stop-opacity="0.05" />
+              <stop offset="100%" stop-color="#22D3EE" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <circle class="pulse" cx="210" cy="210" r="160" fill="url(#glow)" />
+          <g class="rings" fill="none" stroke="#22D3EE" stroke-opacity="0.25">
+            <circle cx="210" cy="210" r="60" />
+            <circle cx="210" cy="210" r="100" />
+            <circle cx="210" cy="210" r="140" />
+            <circle cx="210" cy="210" r="180" />
+          </g>
+          <g id="scan-beam" stroke="#22D3EE" stroke-width="1.5" opacity="0.7">
+            <line x1="210" y1="210" x2="210" y2="30" />
+          </g>
+          <g id="nodes"></g>
+          <text x="210" y="216" text-anchor="middle" class="radar-label">STATIC SCAN</text>
+        </svg>
+        <div class="verdict-chip pass" id="live-verdict">PASS</div>
+      </div>
+    </section>
+
+    <section class="strip" id="why">
+      <div class="strip-item">
+        <span class="num" data-count="0">0</span>
+        <span class="label">model code executed</span>
+      </div>
+      <div class="strip-item">
+        <span class="num" data-count="5">0</span>
+        <span class="label">weight formats covered</span>
+      </div>
+      <div class="strip-item">
+        <span class="num" data-count="30">0</span>
+        <span class="label">sec to grasp the report</span>
+      </div>
+    </section>
+
+    <section id="pipeline" class="section">
+      <header class="section-head">
+        <h2>Intake pipeline</h2>
+        <p>One path from approval request to a handoff-ready report.</p>
+      </header>
+      <div class="pipeline" id="pipeline-track">
+        <button type="button" class="step active" data-step="0">
+          <span class="step-id">01</span>
+          <strong>Approve request</strong>
+          <span>AI team asks for a Hugging Face model</span>
+        </button>
+        <button type="button" class="step" data-step="1">
+          <span class="step-id">02</span>
+          <strong>Sign in</strong>
+          <span>HF device link — same flow as hf-cli</span>
+        </button>
+        <button type="button" class="step" data-step="2">
+          <span class="step-id">03</span>
+          <strong>Pull</strong>
+          <span>Download model ID into a locked-down folder</span>
+        </button>
+        <button type="button" class="step" data-step="3">
+          <span class="step-id">04</span>
+          <strong>Scan</strong>
+          <span>Static checks — no torch.load / no pickle.load</span>
+        </button>
+        <button type="button" class="step" data-step="4">
+          <span class="step-id">05</span>
+          <strong>Report</strong>
+          <span>Plain-language PASS / FAIL Markdown</span>
+        </button>
+      </div>
+      <aside class="pipeline-detail" id="pipeline-detail" aria-live="polite">
+        <h3>Approve request</h3>
+        <p>Cybersecurity receives a model ID (example: <code>google/gemma-4-E2B-it</code>) and opens SafeWeights on the Windows VE that can only reach Hugging Face.</p>
+      </aside>
+    </section>
+
+    <section id="formats" class="section">
+      <header class="section-head">
+        <h2>What gets checked</h2>
+        <p>Hover a format to see how SafeWeights inspects it.</p>
+      </header>
+      <div class="format-grid" id="format-grid">
+        <article class="format" data-key="pickle" tabindex="0">
+          <h3>Pickle / PyTorch</h3>
+          <p class="ext">.pkl · .pt · .pth · .bin</p>
+          <p class="hint">Opcode &amp; import scan via pickletools — flags dangerous GLOBAL / STACK_GLOBAL patterns.</p>
+        </article>
+        <article class="format" data-key="safetensors" tabindex="0">
+          <h3>SafeTensors</h3>
+          <p class="ext">.safetensors</p>
+          <p class="hint">Validates header length, JSON metadata, and tensor offset bounds without loading weights.</p>
+        </article>
+        <article class="format" data-key="gguf" tabindex="0">
+          <h3>GGUF</h3>
+          <p class="ext">.gguf</p>
+          <p class="hint">Checks GGUF magic, version, and implausible tensor / metadata counts.</p>
+        </article>
+        <article class="format" data-key="onnx" tabindex="0">
+          <h3>ONNX</h3>
+          <p class="ext">.onnx</p>
+          <p class="hint">Protobuf heuristics plus scans for suspicious embedded markers.</p>
+        </article>
+        <article class="format" data-key="h5" tabindex="0">
+          <h3>Keras H5</h3>
+          <p class="ext">.h5 · .keras</p>
+          <p class="hint">HDF5 magic + attribute walk for Lambda / exec-style payloads.</p>
+        </article>
+      </div>
+      <div class="severity-board" aria-label="Severity legend">
+        <div><i class="dot crit"></i> Urgent</div>
+        <div><i class="dot high"></i> Serious</div>
+        <div><i class="dot med"></i> Worth a look</div>
+        <div><i class="dot info"></i> Info</div>
+      </div>
+    </section>
+
+    <section id="report" class="section report-section">
+      <header class="section-head">
+        <h2>Reports people actually read</h2>
+        <p>Built for non-technical teammates first — specialists get details below the fold.</p>
+      </header>
+      <div class="report-stage">
+        <article class="report-card">
+          <div class="report-banner pass">PASS — Looks safe to proceed</div>
+          <p class="risk">Risk level: No serious problems found.</p>
+          <ul>
+            <li><strong>In 30 seconds</strong> — what we checked, what we found</li>
+            <li><strong>Do this next</strong> — clear handoff steps</li>
+            <li><strong>What stands out</strong> — plain-language cards</li>
+            <li><strong>Details for specialists</strong> — file tables when needed</li>
+          </ul>
+        </article>
+        <div class="bars" id="severity-bars" aria-hidden="true">
+          <div class="bar-row"><span>Urgent</span><div class="track"><div class="fill crit" style="--w:8%"></div></div></div>
+          <div class="bar-row"><span>Serious</span><div class="track"><div class="fill high" style="--w:14%"></div></div></div>
+          <div class="bar-row"><span>Medium</span><div class="track"><div class="fill med" style="--w:28%"></div></div></div>
+          <div class="bar-row"><span>Info</span><div class="track"><div class="fill info" style="--w:72%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="section start">
+      <header class="section-head">
+        <h2>Run it on the VE</h2>
+        <p>Python 3.14 · CustomTkinter · huggingface_hub</p>
+      </header>
+      <pre class="terminal"><code>cd SafeWeights
+python -m pip install -r requirements.txt
+python main.py</code></pre>
+      <p class="fine">Login uses the Hugging Face device link (same idea as <code>hf auth login</code>). Then pull a model ID, scan, and export the Markdown report.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>SafeWeights</span>
+    <span>Static scan · No model execution · Cybersecurity intake</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

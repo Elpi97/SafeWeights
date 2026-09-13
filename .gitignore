@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+*.token
+
+# Tool / local
+.reports/
+reports/
+inbox/
+approved/
+*.safetensors
+*.gguf
+*.onnx
+*.h5
+*.pt
+*.pth
+*.bin
+*.ckpt
+*.pkl
+
+# IDE / OS
+.idea/
+.vscode/
+.cursor/
+*.swp
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Project noise
+graphify-out/
+prompt.txt
+review.json
+.pytest_cache/
+.mypy_cache/
