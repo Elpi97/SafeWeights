@@ -7,6 +7,9 @@ venv/
 .env
 .env.*
 *.token
+dist/
+build/
+*.egg
 
 # Tool / local
 .reports/
@@ -38,3 +41,4 @@ prompt.txt
 review.json
 .pytest_cache/
 .mypy_cache/
+RELEASE_NOTES_v*.md

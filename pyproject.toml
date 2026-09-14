@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "safewights"
+version = "1.2.0"
+description = "Static AI model intake scanner for Cybersecurity — Hugging Face pull, scan, plain-language report"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.14"
+authors = [{ name = "Elpi97" }]
+keywords = ["cybersecurity", "huggingface", "model-scan", "safetensors", "pickle"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Win32 (MS Windows)",
+  "Intended Audience :: Information Technology",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Security",
+]
+dependencies = [
+  "huggingface_hub>=0.26.0",
+  "customtkinter>=5.2.0",
+  "h5py>=3.11.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Elpi97/SafeWeights"
+Documentation = "https://elpi97.github.io/SafeWeights/"
+Repository = "https://github.com/Elpi97/SafeWeights"
+Issues = "https://github.com/Elpi97/SafeWeights/issues"
+Release = "https://github.com/Elpi97/SafeWeights/releases"
+
+[project.scripts]
+safewights = "safewights.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["safewights*"]

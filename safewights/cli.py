@@ -10,7 +10,7 @@ from safewights.scanner.engine import scan_path
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="SafeWeights — static local model scanner")
-    parser.add_argument("--path", "-p", required=True, help="Model file or folder to scan")
+    parser.add_argument("--path", "-p", default="", help="Model file or folder to scan")
     parser.add_argument("--model-id", default="", help="Hugging Face model id for the report")
     parser.add_argument("--out", "-o", default="", help="Markdown report output path")
     parser.add_argument("--analyst", default="", help="Analyst name")
@@ -22,6 +22,9 @@ def main(argv: list[str] | None = None) -> int:
 
         run_app()
         return 0
+
+    if not args.path:
+        parser.error("--path is required unless --gui is set")
 
     report = scan_path(Path(args.path), model_id=args.model_id)
     out = Path(args.out) if args.out else Path(f"SafeWeights_report_{report.verdict}.md")
