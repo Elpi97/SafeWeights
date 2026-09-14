@@ -1,10 +1,19 @@
-# SafeWeights
+<p align="center">
+  <img src="docs/assets/logo.png" alt="SafeWeights logo" width="160" />
+</p>
 
-**Static AI model intake scanner for Cybersecurity teams.**  
-Pull from Hugging Face → scan without loading → plain-language Markdown report.
+<h1 align="center">SafeWeights</h1>
 
-[![Python 3.14](https://img.shields.io/badge/python-3.14-22D3EE?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-0B1220?style=flat-square)](#license)
+<p align="center">
+  <strong>Static AI model intake scanner for Cybersecurity teams.</strong><br/>
+  Pull from Hugging Face → scan without loading → plain-language Markdown report.
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.14-22D3EE?style=flat-square&logo=python&logoColor=white" alt="Python 3.14" /></a>
+  <a href="#license"><img src="https://img.shields.io/badge/license-MIT-0B1220?style=flat-square" alt="License" /></a>
+  <a href="https://github.com/Elpi97/SafeWeights/releases/tag/v1.2.0"><img src="https://img.shields.io/badge/release-v1.2.0-22D3EE?style=flat-square" alt="Release" /></a>
+</p>
 
 **Live site:** [Project Pages](https://elpi97.github.io/SafeWeights/)  
 **Release:** [v1.2.0](https://github.com/Elpi97/SafeWeights/releases/tag/v1.2.0)
